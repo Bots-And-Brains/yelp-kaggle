@@ -1,7 +1,7 @@
 import PIL
 from PIL import Image
 import os
-from pathlib2 import Path
+import tqdm
 
 verbose = False
 
@@ -40,37 +40,30 @@ def resize_all_images(path, new_path, width, height):
         print("new_path: " + new_path)
         print("width: " + str(width))
         print("height: " + str(height))
-    try:
-        os.makedirs(new_path)
-    except OSError:
-        if not os.path.isdir(new_path):
-            raise
 
     images = find_images(path)
-    n_images = len(images)
-    i_images = n_images / 100.0
-    i = 0
-    p = 0
     if verbose:
-        print "found %i images.. start processing." % (n_images)
+        print "found %i images.. start processing." % (len(images))
 
     if len(images) <= 0:
         if verbose:
             print("no images found.")
         return False
-    for image_path in images:
-        i = i + 1
-        complete_per = i * 100.0 / n_images
-        if int(complete_per) > p :
-            if verbose:
-                print "%i %%" % (p)
-            p = int(complete_per)
+    # tqdm gives us the progress bar and estimated completion.
+    for image_path in tqdm.tqdm(images, disable = not verbose):
+        # Create a new path name, replacing the old path with the new path.
+        updated_path = image_path.replace(path, new_path, 1)
+        updated_path_dir = os.path.split(updated_path)[0]
+        try:
+            os.makedirs(updated_path_dir)
+        except OSError:
+            if not os.path.isdir(updated_path_dir):
+                raise
+            if os.path.isfile(updated_path):
+                pass
         #print len(image_path)
         img = Image.open(image_path)
         img = img.resize((width, height), PIL.Image.ANTIALIAS)
-        # Create a new path name, replacing the old path with the new path.
-        updated_path = image_path.replace(path, new_path, 1)
-        #print updated_path
         img.save(updated_path)
 
 # Allow pre-processing to be called as a script.
