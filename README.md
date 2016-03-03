@@ -39,3 +39,8 @@ cd /usr/lib/x86_64-linux-gnu
 sudo ln -s ~/anaconda/lib/libpng16.so.16 libpng16.so.16
 sudo ldconfig
 ```
+#### Caffe Feature Extractor
+
+##### Creating features
+python caffe_feature_extractor.py -i ../data/images.txt -o ../data/features.txt
+
