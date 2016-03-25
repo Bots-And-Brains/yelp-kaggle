@@ -20,3 +20,22 @@ biz_labels_df.columns = ['good_for_lunch','good_for_dinner'
 ,'restaurant_is_expensive','has_alcohol'
 ,'has_table_service','ambience_is_classy'
 ,'good_for_kids']
+
+
+# Takes a matrix of binary labels, and outputs the label indexes,
+# or labels from label_map if provided.
+def matrix_2_labels(x, label_map=None):
+    x_len, x_width = x.shape
+    out = [None] * x_len
+    for i in range(x_len):
+        out[i] = list()
+        for label in range(x_width):
+            #print x[i][0][0]
+            if x.item((i, label)) > 0:
+                if label_map == None:
+                    out[i].append(label)
+                else:
+                    out[i].append(label_map[label])
+
+    return out
+
