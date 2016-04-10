@@ -1,5 +1,11 @@
 import numpy as np
+# Always assume division should return a float.
+from __future__ import division
 
+def binarized_accuracy(predict, actual):
+    correct_predictions = np.equal(np.argmax(predict,1), np.argmax(actual,1))
+    percent = np.sum(correct_predictions) / correct_predictions.shape[0]
+    return percent
 
 def mean_f1_score(y_pred, y_true):
     assert isinstance(y_pred, np.ndarray)
