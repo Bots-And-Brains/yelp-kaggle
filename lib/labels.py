@@ -3,6 +3,28 @@ import numpy as np
 import os
 import pandas
 
+
+def binarize_softmax_labels(labels_matrix):
+    labels_individual = dict()
+    labels_shape = labels_matrix.shape
+    # For every binary label (columns)..
+    for i in xrange(labels_shape[1]):
+        # Create a new N x 2 matrix for each label.
+        tmp = np.zeros((labels_shape[0], 2), dtype="float32")
+        print tmp.shape
+        # For every row in the label set..
+        for j in xrange(train_shape[0]):
+            # Each label marks the second column as true if it's false.
+            if labels_matrix[j, i] < 1:
+                tmp[j] = [0., 1.]
+            # Or set the first column is true.
+            else:
+                tmp[j] = [1., 0.]
+        # Update the dict of the label.
+        labels_individual[i] = tmp
+    return labels_individual
+
+
 def get_labels(csv_path):
     mlb = MultiLabelBinarizer()
 
