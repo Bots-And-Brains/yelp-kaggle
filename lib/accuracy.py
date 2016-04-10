@@ -1,6 +1,6 @@
+from __future__ import division
 import numpy as np
 # Always assume division should return a float.
-from __future__ import division
 
 def binarized_accuracy(predict, actual):
     correct_predictions = np.equal(np.argmax(predict,1), np.argmax(actual,1))

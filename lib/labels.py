@@ -11,9 +11,8 @@ def binarize_softmax_labels(labels_matrix):
     for i in xrange(labels_shape[1]):
         # Create a new N x 2 matrix for each label.
         tmp = np.zeros((labels_shape[0], 2), dtype="float32")
-        print tmp.shape
         # For every row in the label set..
-        for j in xrange(train_shape[0]):
+        for j in xrange(labels_shape[0]):
             # Each label marks the second column as true if it's false.
             if labels_matrix[j, i] < 1:
                 tmp[j] = [0., 1.]
