@@ -1,0 +1,21 @@
+ahoyapi: v2
+commands:
+  pylint:
+    usage: Check code for coding standards.
+    cmd: |
+  up:
+    usage: Start a docker container
+    cmd: docker run --rm -it -p 8888 -v `pwd`:/notebooks --name yelp-kaggle gcr.io/tensorflow/tensorflow
+  open:
+    usage: Open python notebook in the browser.
+    cmd: |
+      port=$(docker port yelp-kaggle 8888|cut -d ':' -f2)
+      url=`docker exec yelp-kaggle jupyter notebook list | grep 8888 | awk '{if ($1) print $1}'`
+      url="http://docker:$port/""${url#http://localhost:8888/}"
+      if [ `uname` == "Darwin" ] ; then
+        # Output to stderr instead of stdout so that this command could be reused to just get the uri.
+        >&2 echo "opening http://$uri ..."
+        open $url
+      else
+        echo $url
+      fi
