@@ -1,0 +1,1 @@
+/media/LINUX1TB/deeplearning/yelp-competition/data/test_photos/7173.jpg
