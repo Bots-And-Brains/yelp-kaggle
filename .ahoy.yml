@@ -1,16 +1,35 @@
 ahoyapi: v2
 commands:
-  pylint:
-    usage: Check code for coding standards.
+  docker:
+    usage: A smart passthrough to docker or nvidia-docker if installed.
     cmd: |
+      cmd=
+      platform=`uname`
+      if [ "$platform" == "Linux" ]; then
+        cmd="sudo "
+      fi
+      docker=`which docker`
+      if [ ! "$docker" ]; then
+        echo "docker must be installed"
+        exit 1
+      fi
+
+      nvidia=`which nvidia-docker`
+      if [ "$nvidia" ]; then
+        docker="$nvidia"
+      fi
+      # Finally, run our command.
+      cmd="$cmd""$docker"
+      $cmd "$@"
+
   up:
     usage: Start a docker container
-    cmd: docker run --rm -it -p 8888 -v `pwd`:/notebooks --name yelp-kaggle gcr.io/tensorflow/tensorflow
+    cmd: ahoy docker run --rm -it -p 8888 -v `pwd`:/notebooks --name yelp-kaggle tensorflow/tensorflow:1.0.0.2-gpu-py3
   open:
     usage: Open python notebook in the browser.
     cmd: |
-      port=$(docker port yelp-kaggle 8888|cut -d ':' -f2)
-      url=`docker exec yelp-kaggle jupyter notebook list | grep 8888 | awk '{if ($1) print $1}'`
+      port=$(ahoy docker port yelp-kaggle 8888|cut -d ':' -f2)
+      url=`ahoy docker exec yelp-kaggle jupyter notebook list | grep 8888 | awk '{if ($1) print $1}'`
       url="http://docker:$port/""${url#http://localhost:8888/}"
       if [ `uname` == "Darwin" ] ; then
         # Output to stderr instead of stdout so that this command could be reused to just get the uri.
