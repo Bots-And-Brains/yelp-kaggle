@@ -1,4 +1,5 @@
 .idea/
+data/*
 .ipynb_checkpoints/
 *.pyc
 test_submission*
