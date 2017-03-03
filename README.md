@@ -1,6 +1,24 @@
 YELP - KAGGLE COMPETITION
 =========================
 
+######VERSION 2
+
+This is a new version I'm working on that uses keras, python 3, and generally cleans things up now that tensorflow 1.0 is out.
+
+1. Install docker
+2. For GPU acceleration with an nvidia GPU, install latest nvidia drivers and nvidia-docker.
+3. Run: ahoy up which will start the image in eiher docker or nvidia-docker (if installed)
+
+*TODO:*
+
+[ ] Choose the proper tensorflow image depending if nvidia-docker is installed (don't use GPU version if not)
+[ ] Convert code to python 3
+[ ] Implement layers using keras
+[ ] Move lots of code in jupyter notebooks into a proper library for reuse.
+[ ] Write tests
+[ ] Get tensorboard working
+
+
 #####VERSION 1
 
 This is the version that I used to submit to the yelp kaggle competition in April of 2016.
@@ -12,9 +30,6 @@ have made it a lot easier. My plan is to refactor this code very soon and make i
 I also want to create more of a proper report on the things I tried that worked and didn't work as well.
 Even see if I can't get an even better result after a year of leaning a lot more.
 
-######VERSION 2
-
-Coming soon..
 
 
 INSTALLING
